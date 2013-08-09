@@ -43,9 +43,20 @@ describe Restforce::Concerns::Authentication do
       before do
         client.stub :username_password? => false
         client.stub :oauth_refresh? => true
+        client.stub :session_id? => false
       end
 
       it { should eq Restforce::Middleware::Authentication::Token }
+    end
+
+    context 'when session_id is provided' do
+      before do
+        client.stub :username_password? => false
+        client.stub :oauth_refresh? => false
+        client.stub :session_id? => true
+      end
+
+      it { should eq Restforce::Middleware::Authentication::SessionId }
     end
   end
 
@@ -92,6 +103,27 @@ describe Restforce::Concerns::Authentication do
     end
 
     context 'when oauth options are not provided' do
+      it { should_not be_true }
+    end
+  end
+
+  describe '.session_id?' do
+    subject       { client.session_id? }
+    let(:options) { Hash.new }
+
+    before do
+      client.stub :options => options
+    end
+
+    context 'when session_id is provided' do
+      let(:options) do
+        { :session_id => 'session_id' }
+      end
+
+      it { should be_true }
+    end
+
+    context 'when session_id is not provided' do
       it { should_not be_true }
     end
   end

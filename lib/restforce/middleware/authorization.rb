@@ -6,14 +6,22 @@ module Restforce
     AUTH_HEADER = 'Authorization'.freeze
 
     def call(env)
-      env[:request_headers][AUTH_HEADER] = %(OAuth #{token})
+      if(token)
+        env[:request_headers][AUTH_HEADER] = %(OAuth #{token})
+      elsif(session_id)
+        env[:request_headers][AUTH_HEADER] = %(OAuth #{session_id})
+      end
       @app.call(env)
+    end
+
+    def session_id
+      @options[:session_id]
     end
 
     def token
       @options[:oauth_token]
     end
-  
+
   end
 
 end

@@ -7,6 +7,7 @@ describe Restforce do
     ENV['SALESFORCE_SECURITY_TOKEN'] = nil
     ENV['SALESFORCE_CLIENT_ID']      = nil
     ENV['SALESFORCE_CLIENT_SECRET']  = nil
+    ENV['SALESFORCE_SESSION_ID']     = nil
   end
 
   after do
@@ -24,7 +25,7 @@ describe Restforce do
       its(:authentication_retries) { should eq 3 }
       its(:adapter)                { should eq Faraday.default_adapter }
       [:username, :password, :security_token, :client_id, :client_secret,
-       :oauth_token, :refresh_token, :instance_url, :compress, :timeout,
+       :oauth_token, :refresh_token, :session_id, :instance_url, :compress, :timeout,
        :proxy_uri].each do |attr|
         its(attr) { should be_nil }
       end
@@ -37,6 +38,7 @@ describe Restforce do
           'SALESFORCE_SECURITY_TOKEN' => 'foobar',
           'SALESFORCE_CLIENT_ID'      => 'client id',
           'SALESFORCE_CLIENT_SECRET'  => 'client secret',
+          'SALESFORCE_SESSION_ID'     => 'session id',
           'PROXY_URI'                 => 'proxy',
           'SALESFORCE_HOST'           => 'test.host.com' }.
         each { |var, value| ENV.stub(:[]).with(var).and_return(value) }
@@ -47,13 +49,14 @@ describe Restforce do
       its(:security_token) { should eq 'foobar' }
       its(:client_id)      { should eq 'client id' }
       its(:client_secret)  { should eq 'client secret' }
+      its(:session_id)     { should eq 'session id' }
       its(:proxy_uri)      { should eq 'proxy' }
       its(:host)           { should eq 'test.host.com' }
     end
   end
 
   describe '#configure' do
-    [:username, :password, :security_token, :client_id, :client_secret, :compress, :timeout,
+    [:username, :password, :security_token, :client_id, :client_secret, :session_id, :compress, :timeout,
      :oauth_token, :refresh_token, :instance_url, :api_version, :host, :authentication_retries,
      :proxy_uri].each do |attr|
       it "allows #{attr} to be set" do

@@ -29,7 +29,7 @@ module Restforce
           builder.request  :json
           # Handles reauthentication for 403 responses.
           builder.use      authentication_middleware, self, options if authentication_middleware
-          # Sets the oauth token in the headers.
+          # Sets the oauth token or other auth info in the headers
           builder.use      Restforce::Middleware::Authorization, self, options
           # Ensures the instance url is set.
           builder.use      Restforce::Middleware::InstanceURL, self, options

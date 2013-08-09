@@ -15,6 +15,8 @@ module Restforce
           Restforce::Middleware::Authentication::Password
         elsif oauth_refresh?
           Restforce::Middleware::Authentication::Token
+        elsif session_id?
+          Restforce::Middleware::Authentication::Session
         end
       end
 
@@ -33,6 +35,12 @@ module Restforce
         options[:refresh_token] &&
           options[:client_id] &&
           options[:client_secret]
+      end
+
+      # Internal: Returns true if session id flow should be used for
+      # authentication.
+      def session_id?
+        options[:session_id]
       end
 
     end

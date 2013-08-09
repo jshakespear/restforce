@@ -9,6 +9,7 @@ module ClientIntegrationExampleGroup
       let(:security_token) { 'security_token' }
       let(:client_id)      { 'client_id'      }
       let(:client_secret)  { 'client_secret'  }
+      let(:session_id)     { 'session_id'      }
       let(:cache)          { nil }
 
       let(:base_options) do
@@ -21,6 +22,7 @@ module ClientIntegrationExampleGroup
           :security_token => security_token,
           :client_id      => client_id,
           :client_secret  => client_secret,
+          :session_id     => session_id,
           :cache          => cache
         }
       end

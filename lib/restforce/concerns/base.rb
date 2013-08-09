@@ -17,6 +17,7 @@ module Restforce
       #        :refresh_token          - The String refresh token to obtain fresh
       #                                  oauth access tokens (required if oauth
       #                                  authentication is used).
+      #        :session_id             - The String session id to authenticate api calls
       #        :instance_url           - The String base url for all api requests
       #                                  (required if oauth authentication is used).
       #
